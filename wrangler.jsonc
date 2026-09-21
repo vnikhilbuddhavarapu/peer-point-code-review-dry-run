@@ -1,0 +1,59 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "peer-point-code-review-dry-run",
+  "main": "src/server.ts",
+  "compatibility_date": "2026-09-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "ai": {
+    "binding": "AI",
+    "remote": true,
+  },
+  "assets": {
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/agents/*", "/api/*", "/preview/*"],
+  },
+  "containers": [
+    {
+      "class_name": "Sandbox",
+      "image": "./Dockerfile",
+      "instance_type": "lite",
+      "max_instances": 3,
+    },
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "CODE_REVIEW_AGENT",
+        "class_name": "CodeReviewAgent",
+      },
+      {
+        "name": "Sandbox",
+        "class_name": "Sandbox",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["CodeReviewAgent", "Sandbox"],
+    },
+  ],
+  "vars": {
+    "AI_GATEWAY_ID": "default",
+    "CITY": "Montreal",
+    "CARD": "code-review",
+    "ENVIRONMENT": "starter",
+    "PUBLIC_BASE_URL": "https://peer-point-code-review.peer-point-user-group.workers.dev",
+    "SANDBOX_TRANSPORT": "rpc",
+  },
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+    },
+  },
+}

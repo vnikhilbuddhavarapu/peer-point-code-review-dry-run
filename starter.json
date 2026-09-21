@@ -1,0 +1,7 @@
+{
+  "card": "card-2-code-review",
+  "title": "Code Review Agent",
+  "intendedEditFiles": ["src/services/sandbox.ts", "src/agent/context.ts"],
+  "sharedServices": ["sandbox-fixture"],
+  "sourceCommit": "development"
+}
